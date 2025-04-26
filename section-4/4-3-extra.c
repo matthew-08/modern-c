@@ -10,12 +10,12 @@
 
 int main(void) 
 {
-    printf("Input a sequence of letters up to 20 characters");
+    printf("Input a sequence of letters up to 20 characters:\n");
     char input[22];
 
     if (fgets(input, sizeof(input), stdin) != NULL)
     {
-        for (int i = 0; input[i] != '\0'; i++)
+        for (int i = 0; input[i] != '\0'; i += 2)
         {
             if ((input[i] >= 'a' && input[i] <= 'z') || (input[i] >= 'A' && input[i] <= 'Z'))
             {
