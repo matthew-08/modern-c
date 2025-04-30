@@ -2,6 +2,7 @@
 #include <ctype.h>
 
 void print_array(int *array, int size);
+int to_the_power_of(int input, int power);
 
 int main (void)
 {
@@ -32,12 +33,50 @@ int main (void)
                 digit_array[digit_length++] = (input[i] - 48);
                 i++;
             }
-            print_array(digit_array, digit_length);
+
+            // convert to base 10 int, put into array.
+
+            if (input[i] == '\0' || input[i] == '\n')
+            {
+                // done;
+            }
         }
     }
 
 
     print_array(input_ints, ints_index);
+    printf("\nTest: %d", to_the_power_of(10, 3));
+}
+
+int to_the_power_of(int input, int power)
+{
+    int result = 1;
+    for (int i = 0; i < power; i++)
+    {
+        result *= input;
+    }
+    return result;
+}
+
+int convert_to_int (int digit_array[], int digit_length) 
+{
+    int result = 0;
+    for (int i = 0; i < digit_length; i++)
+    {
+        result += digit_array[i];
+    }
+}
+
+void extract_int(char* input, int iterator)
+{
+    int digit_length = 0;
+    int digit_array[10];
+    while (isdigit(input[iterator]))
+    {
+        digit_array[digit_length++] = (input[iterator] - 48);
+        iterator++;
+    }
+
 }
 
 void print_array(int array[], int size)
