@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <ctype.h>
 
+void print_array(int *array, int size);
 
 int main (void)
 {
@@ -13,33 +14,36 @@ int main (void)
 
     int ints_index = 0;
 
+    int i = 0;
     if (fgets(input, sizeof(input), stdin) != NULL)
     {
-        for (int i = 0; input[i] != '\n'; i++)
+        if (!(isdigit(input[0])))
         {
-            if (i % 2 == 0)
+            printf("%s\n", message);
+            return 1;
+        }
+        else
+        {
+            // put this in another function and then while loop on != '\0' && '\n'
+            int digit_length = 0;
+            int digit_array[10];
+            while (isdigit(input[i]))
             {
-                if (!isdigit(input[i]))
-                {
-                    printf("Error: %s\n", message);
-                    break;
-                }
-                else 
-                {
-                    input_ints[ints_index++] = (input[i] - 48);
-                }
+                digit_array[digit_length++] = (input[i] - 48);
+                i++;
             }
-            else
-            {
-                if (input[i] != ',')
-                {
-                    printf("Error: %s\n", message);
-                    break;
-                }
-            }
+            print_array(digit_array, digit_length);
         }
     }
 
 
-    printf("%d", input_ints[0]);
+    print_array(input_ints, ints_index);
+}
+
+void print_array(int array[], int size)
+{
+    for (int i = 0; i < size; i++)
+    {
+        printf("%d", array[i]);
+    }
 }
