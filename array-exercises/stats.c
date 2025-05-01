@@ -3,6 +3,11 @@
 
 void print_array(int *array, int size);
 int to_the_power_of(int input, int power);
+int convert_to_int (int digit_array[], int digit_length);
+int extract_int(char* input, int* iterator);
+int sum (int input[], int input_size);
+int avg (int input[], int input_size);
+
 
 int main (void)
 {
@@ -16,6 +21,7 @@ int main (void)
     int ints_index = 0;
 
     int i = 0;
+
     if (fgets(input, sizeof(input), stdin) != NULL)
     {
         if (!(isdigit(input[0])))
@@ -25,28 +31,46 @@ int main (void)
         }
         else
         {
-            // put this in another function and then while loop on != '\0' && '\n'
-            int digit_length = 0;
-            int digit_array[10];
-            while (isdigit(input[i]))
+            while (input[i] != '\0' && input[i] != '\n')
             {
-                digit_array[digit_length++] = (input[i] - 48);
-                i++;
+                int extracted_int = extract_int(input, &i);
+                input_ints[ints_index++] = extracted_int;
+                if (input[i] == ',')
+                {
+                    i++;
+                }
+                else if (input[i] != '\n')
+                {
+                    printf("%s\n", message);
+                    return 1;                
+                }
             }
 
-            // convert to base 10 int, put into array.
-
-            if (input[i] == '\0' || input[i] == '\n')
-            {
-                // done;
-            }
         }
+        printf("Sum: %d\n", sum(input_ints, ints_index));
+        printf("Avg: %d\n", avg(input_ints, ints_index));
     }
 
 
-    print_array(input_ints, ints_index);
-    printf("\nTest: %d", to_the_power_of(10, 3));
+
+
 }
+
+int sum (int input[], int input_size)
+{
+    int result = 0;
+    for (int i = 0; i < input_size; i++)
+    {
+        result += input[i];
+    }
+    return result;
+}
+
+int avg (int input[], int input_size)
+{
+    return sum(input, input_size) / input_size;
+}
+
 
 int to_the_power_of(int input, int power)
 {
@@ -61,22 +85,25 @@ int to_the_power_of(int input, int power)
 int convert_to_int (int digit_array[], int digit_length) 
 {
     int result = 0;
+    int power = digit_length - 1;
     for (int i = 0; i < digit_length; i++)
     {
-        result += digit_array[i];
+        result += (digit_array[i] * to_the_power_of(10, power--));
     }
+
+    return result;
 }
 
-void extract_int(char* input, int iterator)
+int extract_int(char* input, int* iterator)
 {
     int digit_length = 0;
     int digit_array[10];
-    while (isdigit(input[iterator]))
+    while (isdigit(input[*iterator]))
     {
-        digit_array[digit_length++] = (input[iterator] - 48);
-        iterator++;
+        digit_array[digit_length++] = (input[*iterator] - 48);
+        (*iterator)++;
     }
-
+    return convert_to_int(digit_array, digit_length);
 }
 
 void print_array(int array[], int size)
